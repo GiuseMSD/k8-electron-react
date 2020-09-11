@@ -2,43 +2,85 @@
   "name": "desktopapp-electron-gatsby",
   "version": "0.1.0",
   "description": "POC project to create a desktop application using Electron and Gatsby",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.ui.config.js --config webpack.electron.config.js",
-    "build:watch": "npm run build -- --watch",
-    "build-server": "dotnet publish ./src/server/ --output ../../out/server",
-    "start": "electron ./out/electron/index.js",
-    "dist": "npm run build && electron-builder build -mwl -c.extraMetadata.main=out/electron/index.js"
-  },
+  "license": "MIT",
+  "keywords": [
+    "gatsby",
+    "typescript"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/filetrust/k8-electron-react.git"
   },
   "private": true,
   "author": "Glasswall",
-  "license": "UNLICENSED",
   "bugs": {
     "url": "https://github.com/filetrust/k8-electron-react/issues"
   },
-  "devDependencies": {
-    "@types/react": "^16.9.49",
-    "@types/react-dom": "^16.9.8",
-    "@types/react-router-dom": "^5.1.5",
-    "electron": "^10.1.1",
-    "electron-builder": "^22.8.0",
-    "electron-reload": "^1.5.0",
-    "html-webpack-plugin": "^4.4.1",
-    "ts-loader": "^8.0.3",
-    "typescript": "^4.0.2",
-    "webpack": "^4.44.1",
-    "webpack-cli": "^3.3.12"
+  "scripts": {
+    "start": "gatsby develop",
+    "build": "gatsby build",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean",
+    "type-check": "tsc",
+    "lint": "eslint --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\"",
+    "format": "prettier --ignore-path .gitignore \"src/**/*.+(ts|js|tsx)\" --write",
+    "electron": "electron lib/index.js",
+    "watch:main": "tsc -p app/tsconfig.json --watch",
+    "build:main": "tsc -p app/tsconfig.json "
+  },
+  "husky": {
+    "hooks": {
+      "prepare-commit-msg": "exec < /dev/tty && git cz --hook || true",
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "./src/**/*.{ts,js,jsx,tsx}": [
+      "yarn lint --fix",
+      "yarn format"
+    ]
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
+    "electron": "^10.1.1",
+    "electron-builder": "^22.8.0",
+    "gatsby": "^2.22.5",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-router-dom": "^5.2.0"
+    "react-iframe": "^1.8.0",
+    "tsconfig-paths-webpack-plugin": "^3.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^8.3.5",
+    "@commitlint/config-conventional": "^8.3.4",
+    "@types/node": "^13.11.0",
+    "@types/react": "^16.9.32",
+    "@types/react-dom": "^16.9.6",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "babel-plugin-root-import": "^6.5.0",
+    "commitizen": "^4.0.4",
+    "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-import-resolver-root-import": "^1.0.4",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^3.0.0",
+    "gatsby-plugin-material-ui": "^2.1.10",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.2",
+    "prettier": "^2.0.4",
+    "typescript": "^3.8.3"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }

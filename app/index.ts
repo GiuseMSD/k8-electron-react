@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+import { app, BrowserWindow } from 'electron';
 
 /*
 TO sync changes
@@ -14,10 +14,10 @@ require('electron-reload')(__dirname + '../ui/index.html', {
 app.on('ready', () => {
   const window = new BrowserWindow({ width: 800, height: 600 });
 
-  window.setMenuBarVisibility(null);
+  window.setMenuBarVisibility(false);
 
   // load a website to display
-  window.loadURL(`file://${__dirname}/../ui/index.html`);
+  window.loadURL('http://localhost:8000');
   
   //to add chrome dev tools 
   //window.webContents.openDevTools();
